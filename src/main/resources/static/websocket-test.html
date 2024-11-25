@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+</head>
+<body>
+<h2>WebSocket Testing Tool</h2>
+<div>
+    <button onclick="connect()">Connect</button>
+    <button onclick="disconnect()">Disconnect</button>
+</div>
+<div>
+    <h3>Send Message</h3>
+    <textarea id="messageToSend" rows="5" cols="50">{
+    "type": "join",
+    "roomId": "test-room-id",
+    "userId": "user1",
+    "data": null
+}</textarea>
+    <br>
+    <button onclick="sendMessage()">Send</button>
+</div>
+<div>
+    <h3>Messages</h3>
+    <div id="messages" style="border:1px solid black; padding:10px; height:200px; overflow-y:scroll;"></div>
+</div>
+
+<script>
+    let ws;
+
+    function connect() {
+        ws = new WebSocket('ws://localhost:8080/ws/signaling');
+
+        ws.onopen = function() {
+            addMessage('Connected to WebSocket');
+        };
+
+        ws.onmessage = function(e) {
+            addMessage('Received: ' + e.data);
+        };
+
+        ws.onclose = function() {
+            addMessage('Disconnected from WebSocket');
+        };
+
+        ws.onerror = function(e) {
+            addMessage('Error: ' + e);
+        };
+    }
+
+    function disconnect() {
+        if (ws != null) {
+            ws.close();
+        }
+        addMessage('Disconnected');
+    }
+
+    function sendMessage() {
+        if (ws != null) {
+            var message = document.getElementById('messageToSend').value;
+            ws.send(message);
+            addMessage('Sent: ' + message);
+        } else {
+            addMessage('Please connect first');
+        }
+    }
+
+    function addMessage(message) {
+        var messages = document.getElementById('messages');
+        var messageDiv = document.createElement('div');
+        messageDiv.textContent = message;
+        messages.appendChild(messageDiv);
+        messages.scrollTop = messages.scrollHeight;
+    }
+</script>
+</body>
+</html>
