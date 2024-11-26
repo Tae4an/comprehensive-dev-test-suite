@@ -1,0 +1,46 @@
+.controls-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 50px;
+  z-index: 1000;
+}
+
+.control-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background-color: #424242;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.control-button:hover {
+  background-color: #616161;
+}
+
+.control-button.disabled {
+  background-color: #f44336;
+}
+
+.control-button.active {
+  background-color: #4caf50;
+}
+
+.control-button.end-call {
+  background-color: #f44336;
+}
+
+.control-button.end-call:hover {
+  background-color: #d32f2f;
+}

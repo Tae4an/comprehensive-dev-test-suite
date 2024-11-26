@@ -27,3 +27,15 @@ logging:
     org.hibernate.type: trace
     org.springframework.web.socket: DEBUG
     com.example.webRTC: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+
+  websocket:
+    allowed-origins: "*"
+
+  security:
+    filter:
+      order: 10
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher

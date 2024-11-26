@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +25,14 @@ public class WebRTCController {
 
     @Operation(summary = "방 생성", description = "새로운 화상회의 방을 생성합니다.")
     @PostMapping("/rooms")
-    public ResponseEntity<RoomResponse> createRoom(
-            @RequestBody CreateRoomRequest request) {
-        return ResponseEntity.ok(webRTCService.createRoom(request));
+    public ResponseEntity<RoomResponse> createRoom(@RequestBody CreateRoomRequest request) {
+        try {
+            RoomResponse response = webRTCService.createRoom(request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
     }
 
     @Operation(summary = "방 참여", description = "특정 화상회의 방에 참여합니다.")
