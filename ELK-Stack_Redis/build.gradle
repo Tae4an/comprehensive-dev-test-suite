@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.0'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+
+    // Spring Data Redis: 스프링에서 Redis를 쉽게 사용할 수 있게 해주는 모듈
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // Logback Redis Appender: Logback 로그를 Redis로 전송하기 위한 Appender
+    implementation 'com.cwbase:logback-redis-appender:1.1.6'
+
+    // Jedis: Redis의 Java 클라이언트 라이브러리
+    implementation 'redis.clients:jedis:3.1.0'
+
+    // Logback Classic: SLF4J의 구현체인 로깅 프레임워크
+    implementation 'ch.qos.logback:logback-classic'
+
+    // Logstash Logback Encoder: Logback 로그를 Logstash 포맷으로 인코딩
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 환경변수에서 SERVER_URL 값을 가져옴 -->
+    <springProperty scope="context" name="SERVER_URL" source="SERVER_URL"/>
+
+    <!-- 콘솔 출력을 위한 Appender 설정 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 로그 출력 패턴 설정
+                 %d: 날짜시간
+                 [%thread]: 스레드 이름
+                 %-5level: 로그 레벨
+                 %logger{36}: 로거 이름 (최대 36자)
+                 %msg: 실제 로그 메시지
+                 %n: 줄바꿈 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Redis로 로그를 전송하기 위한 Appender 설정 -->
+    <appender name="REDIS" class="com.cwbase.logback.RedisAppender">
+        <!-- Redis 서버 연결 정보 -->
+        <host>${SERVER_URL}</host>
+        <port>6379</port>
+        <password>${REDIS_PASSWORD}</password>
+        <!-- Redis LIST의 키 이름 -->
+        <key>logstash</key>
+        <type>redis</type>
+        <!-- JSON 형식으로 로그 포맷팅 -->
+        <layout class="net.logstash.logback.layout.LogstashLayout">
+            <!-- 로그에 추가될 커스텀 필드 -->
+            <customFields>{"application":"test"}</customFields>
+        </layout>
+    </appender>
+
+    <!-- 비동기 처리를 위한 Async Appender 설정 -->
+    <appender name="ASYNC_REDIS" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- Redis Appender 참조 -->
+        <appender-ref ref="REDIS" />
+        <!-- 로그 버퍼 큐 크기 설정 -->
+        <queueSize>512</queueSize>
+        <!-- 큐가 가득 찼을 때 로그 유실 방지를 위한 임계값 (0: 로그 유실 없음) -->
+        <discardingThreshold>0</discardingThreshold>
+    </appender>
+
+    <!-- 루트 로거 설정 (전체 애플리케이션에 적용) -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />  <!-- 콘솔에 출력 -->
+        <appender-ref ref="ASYNC_REDIS" />  <!-- Redis로 비동기 전송 -->
+    </root>
+
+    <!-- 특정 패키지의 로그 레벨 설정
+         additivity="false": 상위 로거로의 전파 방지 -->
+    <logger name="com.example" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ASYNC_REDIS" />
+    </logger>
+</configuration>
