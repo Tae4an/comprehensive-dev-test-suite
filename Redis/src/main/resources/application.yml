@@ -1,0 +1,18 @@
+spring:
+  data:
+    redis:
+      host: ${SERVER_URL}
+      port: 6379
+      password: ${REDIS_PASSWORD}
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 2
+          max-wait: -1ms
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
