@@ -69,4 +69,26 @@ public class RedisConfig {
 
         return template;
     }
+
+    /**
+     * 이미지 캐싱을 위한 RedisTemplate 빈 설정
+     * 바이트 배열을 직렬화/역직렬화하기 위한 템플릿
+     * @return RedisTemplate String 키와 byte[] 값을 다루는 템플릿
+     */
+    @Bean
+    public RedisTemplate<String, byte[]> redisImageTemplate() {
+        RedisTemplate<String, byte[]> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory());
+
+        // Key는 문자열로 직렬화
+        template.setKeySerializer(new StringRedisSerializer());
+        // Value는 바이트 배열 그대로 저장
+        template.setValueSerializer(new StringRedisSerializer());
+
+        // Hash 작업을 위한 Serializer 설정
+        template.setHashKeySerializer(new StringRedisSerializer());
+        template.setHashValueSerializer(new StringRedisSerializer());
+
+        return template;
+    }
 }
