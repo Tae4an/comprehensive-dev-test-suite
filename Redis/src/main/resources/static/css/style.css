@@ -1,0 +1,21 @@
+.sidebar {
+    min-height: 100vh;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.section {
+    padding: 20px 0;
+}
+
+#imagePreview, #cachedImage {
+    max-width: 300px;
+    margin-top: 10px;
+}
+
+.card {
+    box-shadow: 0 0 5px rgba(0,0,0,0.05);
+}
+
+.list-group-item {
+    word-break: break-all;
+}
