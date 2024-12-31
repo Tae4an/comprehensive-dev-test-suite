@@ -24,29 +24,24 @@ repositories {
 }
 
 dependencies {
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-
-
-    // Spring Data Redis: 스프링에서 Redis를 쉽게 사용할 수 있게 해주는 모듈
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
-    // Logback Redis Appender: Logback 로그를 Redis로 전송하기 위한 Appender
     implementation 'com.cwbase:logback-redis-appender:1.1.6'
-
-    // Jedis: Redis의 Java 클라이언트 라이브러리
     implementation 'redis.clients:jedis:3.1.0'
-
-    // Logback Classic: SLF4J의 구현체인 로깅 프레임워크
     implementation 'ch.qos.logback:logback-classic'
-
-    // Logstash Logback Encoder: Logback 로그를 Logstash 포맷으로 인코딩
     implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
 
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'co.elastic.clients:elasticsearch-java:8.12.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'org.elasticsearch.client:elasticsearch-rest-client'
+
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:10.1.7'
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
+    implementation 'org.webjars:bootstrap:5.3.2'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {

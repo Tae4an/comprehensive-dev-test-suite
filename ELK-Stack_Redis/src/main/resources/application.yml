@@ -1,4 +1,10 @@
 spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  elasticsearch:
+    uris: ${ES_URL}
   data:
     redis:
       host: ${SERVER_URL}
@@ -9,4 +15,4 @@ logging:
   config: classpath:logback-spring.xml
   level:
     root: INFO
-    com.office: DEBUG
+    com.example: DEBUG
